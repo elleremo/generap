@@ -1,7 +1,6 @@
 const gulp = require('gulp'),
     gulpLoadPlugins = require('gulp-load-plugins'),
     plugins = gulpLoadPlugins(),
-
     sourcemaps = require('gulp-sourcemaps'),
     imageminJpegRecompress = require('imagemin-jpeg-recompress'),
     imageminPngquant = require('imagemin-pngquant'),
@@ -10,23 +9,23 @@ const gulp = require('gulp'),
 
 const plugin_src = {
     js: [
-        'public/js/*.js',
-        '!public/js/*.min.js',
+        'src/js/*.js',
+        '!src/js/*.min.js',
     ],
     css: [
-        '!public/css/vendor',
-        'public/css/**/*.less',
+        '!src/css/vendor',
+        'src/less/**/*.less',
     ],
     cssMaps: [
-        'public/css/maps/*',
+        'src/css/maps/*',
     ],
     svg: [
-        'public/images/**/*.svg',
+        'src/images/**/*.svg',
     ],
     images: [
-        'public/images/**/*.png',
-        'public/images/**/*.jpeg',
-        'public/images/**/*.jpg',
+        'src/images/**/*.png',
+        'src/images/**/*.jpeg',
+        'src/images/**/*.jpg',
     ],
 }
 
@@ -53,12 +52,12 @@ gulp.task('css', function () {
         .pipe(sourcemaps.init())
         .pipe(plugins.plumber())
         .pipe(plugins.less())
-        .pipe(plugins.autoprefixer(['ios_saf >= 6', 'last 3 versions']))
+        // .pipe(plugins.autoprefixer(['ios_saf >= 6', 'last 3 versions']))
         .pipe(plugins.csso())
         .pipe(plugins.concat('style.css'))
         .pipe(plugins.csso())
         .pipe(sourcemaps.write('/maps'))
-        .pipe(gulp.dest('public/css/'))
+        .pipe(gulp.dest('src/css/'))
         .pipe(plugins.notify({message: 'Стили собрались'}))
 })
 

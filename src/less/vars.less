@@ -1,0 +1,44 @@
+ @yellow: #BCA98D;
+@light-yellow: #E7D2B6;
+@red-link: #F66244;
+
+@light-font: #E0E0E0;
+@yellow: #BCA98D;
+@green: #7CB53E;
+@blue: #2E9BFC;
+@lightblue: #E6F0FA;
+
+
+@content-width: 1200px;
+@base-padding: 60px;
+@base-width: (@content-width + (@base-padding*2));
+
+
+
+@base_font_size:16;
+.rem( @target) {
+  @var: (@target/@base_font_size);
+  font-size: @var+0rem;
+}
+
+.fsize(@min, @max) {
+  @diff: @max - @min;
+  @diff_w : @base-width - 320;
+  @diff_str : replace("@{diff_w}", "px", "");
+  @minf : @min+0px;
+
+  font-size: @max+0px;
+
+  @media(max-width: @base-width){
+    font-size: ~"calc((100vw - 320px)/@{diff_str} * @{diff} + @{minf})";
+  }
+
+  @media(max-width: 600px){
+    font-size: @min+0px;
+    font-size: ~"calc((100vw - 320px)/@{diff_str} * @{diff} + @{minf})";
+
+  }
+
+
+
+}
