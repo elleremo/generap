@@ -43,6 +43,17 @@ function getVideoIdFromUrl(link) {
     return id;
 }
 
+function eventFire(el, etype) {
+    if (el.fireEvent) {
+        el.fireEvent('on' + etype);
+        log('click')
+    } else {
+        var evObj = document.createEvent('Events');
+        evObj.initEvent(etype, true, false);
+        el.dispatchEvent(evObj);
+    }
+}
+
 function isYouTubeLink(link) {
     return (link.includes('youtube.com') ||
         link.includes('youtu.be'));
@@ -87,13 +98,18 @@ const App = {
             iframe.contentWindow.postMessage('{"event":"command","func":"' + 'playVideo' + '","args":""}', '*');
         }
 
-        // this.musicContainer.element.querySelector('.y_player').onload = function () {
-        //     onload(this)
-        // };
-        // this.speechContainer.element.querySelector('.y_player').onload = function () {
-        //     setTimeout(onload(this), 2000)
-        //
-        // };
+        this.musicContainer.element.querySelector('.y_player').onload = function () {
+            onload(this)
+        };
+        this.speechContainer.element.querySelector('.y_player').onload = function () {
+            onload(this)
+
+        };
+        // eventFire(this.musicContainer.element.querySelector('.y_player'), 'click')
+
+        // this.musicContainer.element.querySelector('.y_player').addEventListener('click', function (e) {
+        //     log(e)
+        // })
 
     },
     reloadByButton: function (container) {
@@ -111,7 +127,7 @@ const App = {
         let randInt = this.randInt(0, container.links.length - 1);
         let iframe = container.element.querySelector('iframe');
         let id = getVideoIdFromUrl(container.links[randInt]);
-        let url = 'https://www.youtube.com/embed/' + id + '?rel=0&modestbranding=1&autohide=1&showinfo=0&controls=1&autoplay=1';
+        let url = 'https://www.youtube.com/embed/' + id + '?rel=0&modestbranding=1&autohide=1&autoplay=1&showinfo=0&controls=1&enablejsapi=1';
         iframe.setAttribute('src', url)
         // iframe.setAttribute('allow', 'autoplay')
     },
@@ -123,3 +139,4 @@ const App = {
 
 App.init(links);
 App.reloadAll();
+
