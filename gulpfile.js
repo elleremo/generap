@@ -1,39 +1,49 @@
 const gulp = require('gulp'),
     gulpLoadPlugins = require('gulp-load-plugins'),
     plugins = gulpLoadPlugins(),
-
     sourcemaps = require('gulp-sourcemaps'),
     imageminJpegRecompress = require('imagemin-jpeg-recompress'),
     imageminPngquant = require('imagemin-pngquant'),
-    babel = require('gulp-babel')
-    del = require('del')
+    babel = require('gulp-babel'),
+    del = require('del'),
+    browserSync = require("browser-sync"),
+    reload = browserSync.reload;
+
+var config = {
+    server: {
+        baseDir: "./"
+    },
+    tunnel: false,
+    host: 'localhost',
+    port: 9000
+};
 
 const plugin_src = {
     js: [
-        'public/js/*.js',
-        '!public/js/*.min.js',
+        'src/js/*.js',
+        '!src/js/*.min.js',
     ],
     css: [
-        '!public/css/vendor',
-        'public/css/**/*.less',
+        '!src/css/vendor',
+        'src/less/**/*.less',
     ],
     cssMaps: [
-        'public/css/maps/*',
+        'src/css/maps/*',
     ],
     svg: [
-        'public/images/**/*.svg',
+        'src/images/**/*.svg',
     ],
     images: [
-        'public/images/**/*.png',
-        'public/images/**/*.jpeg',
-        'public/images/**/*.jpg',
+        'src/images/**/*.png',
+        'src/images/**/*.jpeg',
+        'src/images/**/*.jpg',
     ],
 }
 
 gulp.task('js', function () {
     return gulp.src(plugin_src.js)
         .pipe(babel())
-        .pipe(plugins.plumber())
+        // .pipe(plugins.plumber())
         .pipe(plugins.uglify({
             compress: true,
             preserveComments: 'all',
@@ -45,6 +55,7 @@ gulp.task('js', function () {
         .pipe(gulp.dest(function (file) {
             return file.base
         }))
+        .pipe(reload({stream: true}))
         .pipe(plugins.notify({message: 'Скрипты собрались'}))
 })
 
@@ -53,12 +64,13 @@ gulp.task('css', function () {
         .pipe(sourcemaps.init())
         .pipe(plugins.plumber())
         .pipe(plugins.less())
-        .pipe(plugins.autoprefixer(['ios_saf >= 6', 'last 3 versions']))
+        // .pipe(plugins.autoprefixer(['ios_saf >= 6', 'last 3 versions']))
         .pipe(plugins.csso())
         .pipe(plugins.concat('style.css'))
         .pipe(plugins.csso())
         .pipe(sourcemaps.write('/maps'))
-        .pipe(gulp.dest('public/css/'))
+        .pipe(gulp.dest('src/css/'))
+        .pipe(reload({stream: true}))
         .pipe(plugins.notify({message: 'Стили собрались'}))
 })
 
@@ -92,6 +104,7 @@ gulp.task('images', function () {
         .pipe(gulp.dest(function (file) {
             return file.base
         }))
+        .pipe(reload({stream: true}))
         .pipe(plugins.notify({message: 'Картинка оптимизирована'}))
 
 })
@@ -113,4 +126,8 @@ gulp.task('watch', function () {
 
 })
 
-gulp.task('default', ['clean', 'css', 'js', 'watch'])
+gulp.task('webserver', function () {
+    browserSync(config);
+});
+
+gulp.task('default', ['clean', 'css', 'js', 'webserver', 'watch'])

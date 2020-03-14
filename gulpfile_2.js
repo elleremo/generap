@@ -87,7 +87,10 @@ gulp.task('style:build', function () {
             browsers: ['ios_saf >= 6', 'last 4 versions']
         }))
         .pipe(csso())
-        .pipe(sourcemaps.write())
+        .pipe(concat('style.css'))
+    .pipe(csso())
+
+    .pipe(sourcemaps.write('/maps'))
         .pipe(gulp.dest(path.build.css))
         .pipe(reload({stream: true}));
 });
