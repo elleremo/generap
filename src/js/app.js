@@ -87,13 +87,13 @@ const App = {
             iframe.contentWindow.postMessage('{"event":"command","func":"' + 'playVideo' + '","args":""}', '*');
         }
 
-        this.musicContainer.element.querySelector('.y_player').onload = function () {
-            onload(this)
-        };
-        this.speechContainer.element.querySelector('.y_player').onload = function () {
-            setTimeout(onload(this), 2000)
-
-        };
+        // this.musicContainer.element.querySelector('.y_player').onload = function () {
+        //     onload(this)
+        // };
+        // this.speechContainer.element.querySelector('.y_player').onload = function () {
+        //     setTimeout(onload(this), 2000)
+        //
+        // };
 
     },
     reloadByButton: function (container) {
@@ -111,9 +111,9 @@ const App = {
         let randInt = this.randInt(0, container.links.length - 1);
         let iframe = container.element.querySelector('iframe');
         let id = getVideoIdFromUrl(container.links[randInt]);
-        let url = 'https://www.youtube.com/embed/' + id + '?rel=0&version=3&enablejsapi=1&showinfo=0&rel=0&iv_load_policy=3&loop=1&playsinline=1';
+        let url = 'https://www.youtube.com/embed/' + id + '?rel=0&modestbranding=1&autohide=1&showinfo=0&controls=1&autoplay=1';
         iframe.setAttribute('src', url)
-        iframe.setAttribute('autoplay', 'true')
+        // iframe.setAttribute('allow', 'autoplay')
     },
     randInt: function (min, max) {
         let rand = min + Math.random() * (max + 1 - min);
