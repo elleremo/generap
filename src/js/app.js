@@ -51,7 +51,8 @@ let links = {
      'https://www.youtube.com/watch?v=NKLg8jNr4Ak',
      'https://www.youtube.com/watch?v=kkF7yvpKSf0',
      'https://www.youtube.com/watch?v=O_OoebSPE0E',
-     'https://www.youtube.com/watch?v=-nDQ068NK0o'
+     'https://www.youtube.com/watch?v=-nDQ068NK0o',
+      'https://www.youtube.com/watch?v=EKjl3YL1eFg'
   ],
 }
 
@@ -76,8 +77,8 @@ function isYouTubeLink (link) {
     link.includes('youtu.be'))
 }
 
-let res = isYouTubeLink('https://www.youtube.com/watch?v=EKjl3YL1eFg')
-log(res)
+// let res = isYouTubeLink('https://www.youtube.com/watch?v=EKjl3YL1eFg')
+// log(res)
 
 const App = {
   musicContainer: {
