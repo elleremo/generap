@@ -40,7 +40,7 @@ const plugin_src = {
     ],
 }
 
-function js() {
+gulp.task('js', function () {
     return gulp.src(plugin_src.js)
         .pipe(babel())
         // .pipe(plugins.plumber())
@@ -55,11 +55,11 @@ function js() {
         .pipe(gulp.dest(function (file) {
             return file.base
         }))
-        .pipe(reload({ stream: true }))
-        .pipe(plugins.notify({ message: 'Скрипты собрались' }))
-}
+        .pipe(reload({stream: true}))
+        .pipe(plugins.notify({message: 'Скрипты собрались'}))
+})
 
-function css() {
+gulp.task('css', function () {
     return gulp.src(plugin_src.css)
         .pipe(sourcemaps.init())
         .pipe(plugins.plumber())
@@ -70,25 +70,25 @@ function css() {
         .pipe(plugins.csso())
         .pipe(sourcemaps.write('/maps'))
         .pipe(gulp.dest('src/css/'))
-        .pipe(reload({ stream: true }))
-        .pipe(plugins.notify({ message: 'Стили собрались' }))
-}
+        .pipe(reload({stream: true}))
+        .pipe(plugins.notify({message: 'Стили собрались'}))
+})
 
-function svg() {
+gulp.task('svg', function () {
 
-    return gulp.src(plugin_src.svg)
+    gulp.src(plugin_src.svg)
         .pipe(plugins.svgo())
         .pipe(gulp.dest(function (file) {
             return file.base
         }))
-        .pipe(plugins.notify({ message: 'SVG оптимизированы' }))
-}
+        .pipe(plugins.notify({message: 'SVG оптимизированы'}))
+})
 
-function images() {
+gulp.task('images', function () {
     return gulp.src(plugin_src.images)
         .pipe(plugins.plumber())
         .pipe(plugins.imagemin([
-            plugins.imagemin.gifsicle({ interlaced: true }),
+            plugins.imagemin.gifsicle({interlaced: true}),
             imageminJpegRecompress({
                 progressive: true,
                 max: 90,
@@ -99,39 +99,35 @@ function images() {
                 speed: 4,
                 dithering: 1,
             }),
-            plugins.imagemin.svgo({ plugins: [{ removeViewBox: true }] }),
+            plugins.imagemin.svgo({plugins: [{removeViewBox: true}]}),
         ]))
         .pipe(gulp.dest(function (file) {
             return file.base
         }))
-        .pipe(reload({ stream: true }))
-        .pipe(plugins.notify({ message: 'Картинка оптимизирована' }))
+        .pipe(reload({stream: true}))
+        .pipe(plugins.notify({message: 'Картинка оптимизирована'}))
 
-}
+})
 
-function clean(cb) {
-    del(plugin_src.cssMaps);
-    cb();
-}
+gulp.task('clean', function (cb) {
+    del(plugin_src.cssMaps, cb)
+})
 
-function watch() {
-    gulp.watch(plugin_src.js, js);
-    gulp.watch(plugin_src.css, css);
-    // ... (остальные наблюдатели)
-}
+gulp.task('watch', function () {
 
-function webserver() {
-    browserSync.init(config);
-}
+    gulp.watch(
+        plugin_src.js,
+        function (event) {
+            plugin_src.js = [event.path]
+            gulp.start('js')
+        },
+    )
+    gulp.watch([plugin_src.css], ['css'])
 
-// Использование gulp.series и gulp.parallel
-gulp.task('default', gulp.series(clean, gulp.parallel(css, js), webserver, watch));
+})
 
-// Экспорт отдельных задач для использования в командной строке
-exports.js = js;
-exports.css = css;
-exports.svg = svg;
-exports.images = images;
-exports.clean = clean;
-exports.watch = watch;
-exports.webserver = webserver;
+gulp.task('webserver', function () {
+    browserSync(config);
+});
+
+gulp.task('default', ['clean', 'css', 'js', 'webserver', 'watch'])

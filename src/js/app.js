@@ -56,21 +56,24 @@ let links = {
     speech: [
 
         'https://www.youtube.com/watch?v=CtYPMmWu5qA',
-        'https://www.youtube.com/watch?v=RRkY2tfgFz4',
-        'https://www.youtube.com/watch?v=AOsYyPQ3lV8',
-        'https://www.youtube.com/watch?v=tbRDeqfSx9U',
-        'https://www.youtube.com/watch?v=mrhGReeaAJ4',
-        'https://www.youtube.com/watch?v=EgoZU61JScM',
+        'https://www.youtube.com/watch?v=hKkEfN_gdmI',
+        'https://www.youtube.com/watch?v=h0NFBFQ5kjg', 
+        'https://www.youtube.com/watch?v=4Z1pw-XVhpY', 
+        // 'https://www.youtube.com/watch?v=RRkY2tfgFz4',
+        // 'https://www.youtube.com/watch?v=AOsYyPQ3lV8',
+        // 'https://www.youtube.com/watch?v=tbRDeqfSx9U',
+        // 'https://www.youtube.com/watch?v=mrhGReeaAJ4',
+        // 'https://www.youtube.com/watch?v=EgoZU61JScM',
         'https://www.youtube.com/watch?v=Q69dvKL83BE',
-        'https://www.youtube.com/watch?v=F7goOq2X0I8',
-        'https://www.youtube.com/watch?v=JlCneZbRR3M',
-        'https://www.youtube.com/watch?v=tSF-BevoC74',
+        // 'https://www.youtube.com/watch?v=F7goOq2X0I8',
+        // 'https://www.youtube.com/watch?v=JlCneZbRR3M',
+        // 'https://www.youtube.com/watch?v=tSF-BevoC74',
         'https://www.youtube.com/watch?v=drrkXxv-eKY',
-        'https://www.youtube.com/watch?v=rh1fg6RHdmw',
+        // 'https://www.youtube.com/watch?v=rh1fg6RHdmw',
         'https://www.youtube.com/watch?v=BJPzWewRwuM',
-        'https://www.youtube.com/watch?v=NKLg8jNr4Ak',
-        'https://www.youtube.com/watch?v=kkF7yvpKSf0',
-        'https://www.youtube.com/watch?v=O_OoebSPE0E',
+        // 'https://www.youtube.com/watch?v=NKLg8jNr4Ak',
+        // 'https://www.youtube.com/watch?v=kkF7yvpKSf0',
+        // 'https://www.youtube.com/watch?v=O_OoebSPE0E',
         'https://www.youtube.com/watch?v=-nDQ068NK0o',
         'https://www.youtube.com/watch?v=EKjl3YL1eFg'
     ],
@@ -189,6 +192,7 @@ const App = {
         let randInt = this.randInt(0, container.links.length - 1)
         let iframe = container.element.querySelector('iframe')
         let id = getVideoIdFromUrl(container.links[randInt])
+        console.log(id);
         let url = 'https://www.youtube.com/embed/' + id + '?rel=0&modestbranding=1&autohide=1&autoplay=1&showinfo=0&controls=1&enablejsapi=1'
         iframe.setAttribute('src', url)
         // iframe.setAttribute('allow', 'autoplay')
